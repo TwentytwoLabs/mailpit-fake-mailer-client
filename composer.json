@@ -1,0 +1,40 @@
+{
+    "name": "twentytwo-labs/mailpit-fake-mailer-client",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "TwentytwoLabs\\BehatFakeMailerExtension\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TwentytwoLabs\\BehatFakeMailerExtension\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit --stop-on-failure --stop-on-error",
+        "test-coverage": "vendor/bin/phpunit --disallow-test-output --coverage-html=coverage --coverage-xml=coverage/coverage-xml --log-junit=coverage/junit.xml --coverage-text --colors=always --stop-on-failure --stop-on-error && vendor/bin/infection --threads=4 --coverage=coverage --only-covered",
+        "cs": "vendor/bin/phpcs --standard=PSR12 src",
+        "cs-fixer": "vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --dry-run --using-cache=no src",
+        "cs-fixer-apply": "./vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --using-cache=no src",
+        "phpstan": "./vendor/bin/phpstan analyse"
+    },
+    "require": {
+        "php": ">=8.1",
+        "ext-iconv": "*",
+        "twentytwo-labs/behat-fake-mailer-extension": "^1.0"
+    },
+    "require-dev": {
+        "friends-of-behat/mink-browserkit-driver": "^1.6",
+        "friendsofphp/php-cs-fixer": "^3.67",
+        "infection/infection": "^0.29",
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^10.5",
+        "squizlabs/php_codesniffer": "^3.11"
+    }
+}
