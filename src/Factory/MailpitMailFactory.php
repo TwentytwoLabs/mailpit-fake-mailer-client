@@ -28,6 +28,11 @@ class MailpitMailFactory
         return $mail;
     }
 
+    /**
+     * @param array<string, mixed> $data
+     *
+     * @return Contact
+     */
     private static function buildContact(array $data): Contact
     {
         return new Contact($data['Address'], empty($data['Name']) ? null : $data['Name']);
