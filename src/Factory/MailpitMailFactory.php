@@ -17,23 +17,19 @@ class MailpitMailFactory
         $mail = new Mail();
         $mail
             ->setMessageId($data['ID'])
-            ->setSender(new Contact($data['From']['Address'], $data['From']['Name'] ?? null))
-            ->setRecipients(array_map(
-                fn (array $recipient) => new Contact($recipient['Address'], $recipient['Name'] ?? null),
-                $data['To']
-            ))
-            ->setCcRecipients(array_map(
-                fn (array $recipient) => new Contact($recipient['Address'], $recipient['Name'] ?? null),
-                $data['Cc']
-            ))
-            ->setBccRecipients(array_map(
-                fn (array $recipient) => new Contact($recipient['Address'], $recipient['Name'] ?? null),
-                $data['Bcc']
-            ))
+            ->setSender(self::buildContact($data['From']))
+            ->setRecipients(array_map(fn (array $recipient) => self::buildContact($recipient), $data['To'] ?? []))
+            ->setCcRecipients(array_map(fn (array $recipient) => self::buildContact($recipient), $data['Cc'] ?? []))
+            ->setBccRecipients(array_map(fn (array $recipient) => self::buildContact($recipient), $data['Bcc'] ?? []))
             ->setSubject($data['Subject'])
             ->setBody($data['Snippet'])
         ;
 
         return $mail;
+    }
+
+    private static function buildContact(array $data): Contact
+    {
+        return new Contact($data['Address'], empty($data['Name']) ? null : $data['Name']);
     }
 }
